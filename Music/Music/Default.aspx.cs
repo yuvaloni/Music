@@ -12,7 +12,6 @@ namespace Music
     public partial class Default : System.Web.UI.Page
     {
         int id = 0;
-        static Socket s;
         static Socket c;
         string play;
         protected void Page_Load(object sender, EventArgs e)
@@ -20,7 +19,6 @@ namespace Music
             IPHostEntry host;
             string localIP = "?";
             host = Dns.GetHostEntry(Dns.GetHostName());
-            s = new Socket(AddressFamily.InterNetwork,SocketType.Stream,ProtocolType.Tcp);
             foreach (IPAddress ip in host.AddressList)
             {
                 if (ip.AddressFamily.ToString() == "InterNetwork")
@@ -35,6 +33,7 @@ namespace Music
         public bool isConnected = false;
         public void Listen()
         {
+           Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             s.Bind(new IPEndPoint(IPAddress.Any, 1234));
             s.Listen(1);
             c = s.Accept();
